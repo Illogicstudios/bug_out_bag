@@ -11,26 +11,23 @@ from BobCollapsibleWidget import *
 
 
 class BobCategory(BobElement):
-    def __init__(self, name, bob_tools):
+    def __init__(self, name, prefs,bob_tools):
         super().__init__(name)
+        self.__prefs = prefs
         self._bob_tools = bob_tools
-        self.__prefs = None
+        for bob_tool in bob_tools:
+            bob_tool.set_prefs(self.__prefs)
 
     def populate(self):
-        # layout = QVBoxLayout()
-        # layout.setAlignment(Qt.AlignTop)
-        # for bob_tool in self._bob_tools:
-        #     layout.addLayout(bob_tool.populate())
-
         scroll = QScrollArea()
         scroll.setFocusPolicy(Qt.NoFocus)
         widget = QWidget()
         layout = QVBoxLayout()
         layout.setAlignment(Qt.AlignTop)
         layout.setContentsMargins(3,6,3,8)
+        layout.setSpacing(5)
 
         for bob_tool in self._bob_tools:
-            bob_tool.set_prefs(self.__prefs)
             layout_tool = bob_tool.populate()
             layout.addLayout(layout_tool)
 
@@ -52,5 +49,9 @@ class BobCategory(BobElement):
         for bob_tool in self._bob_tools:
             bob_tool.on_dag_changed()
 
-    def set_prefs(self,prefs):
-        self.__prefs = prefs
+    def save_prefs(self):
+        for bob_tool in self._bob_tools:
+            bob_tool.save_prefs()
+    def retrieve_prefs(self):
+        for bob_tool in self._bob_tools:
+            bob_tool.retrieve_prefs()

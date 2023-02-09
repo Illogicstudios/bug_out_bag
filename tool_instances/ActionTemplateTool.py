@@ -6,4 +6,5 @@ class ActionTemplateTool(ActionTool):
         print(self._name)
 
     def __init__(self):
-        super().__init__(name="Action Tool",pref_name="action_template_tool", description="Run the Template Action" ,button_text="Run")
+        super().__init__(name="Action Tool",pref_name="action_template_tool",
+                         description="Run the Template Action" ,button_text="Run")

@@ -15,7 +15,8 @@ class RoutineTemplateTool(RoutineTool):
                     "action": self.__action_3,
                 }
             }
-        super().__init__(name="Routine Template Tool", pref_name="routine_template_tool", steps=steps,button_text="Run", step_checked_default = True)
+        super().__init__(name="Routine Template Tool", pref_name="routine_template_tool",
+                         steps=steps,button_text="Run", step_checked_default = True)
 
     def __action_1(self):
         print("Step 1")

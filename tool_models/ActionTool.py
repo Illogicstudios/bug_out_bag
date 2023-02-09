@@ -2,14 +2,19 @@ from BobTool import *
 
 
 class ActionTool(BobTool, ABC):
-    def __init__(self, name, pref_name, description, button_text="Run"):
-        super().__init__(name, pref_name)
+    def __init__(self, name, pref_name, description,tooltip="", button_text="Run"):
+        super().__init__(name, pref_name,tooltip)
         self.__description = description
         self.__button_text = button_text
 
     @abstractmethod
     def _action(self):
         pass
+
+    def __action_with_chunks(self):
+        undoInfo(openChunk=True)
+        self._action()
+        undoInfo(closeChunk=True)
 
     def populate(self):
         layout = super().populate()
@@ -22,10 +27,11 @@ class ActionTool(BobTool, ABC):
         content_layout.addLayout(hlyt)
 
         desc_lbl = QLabel(self.__description)
+        desc_lbl.setContentsMargins(5,0,0,0)
         desc_lbl.setWordWrap(True)
         hlyt.addWidget(desc_lbl, 1)
 
         action_btn = QPushButton(self.__button_text)
-        action_btn.clicked.connect(self._action)
+        action_btn.clicked.connect(self.__action_with_chunks)
         hlyt.addWidget(action_btn)
         return layout

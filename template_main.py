@@ -23,6 +23,8 @@ if __name__ == '__main__':
         "tool_instances.RoutineTemplateTool",
         # Tool Instances
         "tool_instances.LockTool",
+        "tool_instances.BrokenISGFixTool",
+        "tool_instances.CleanFreezeTool",
     ]
 
     from utils import *
@@ -32,5 +34,10 @@ if __name__ == '__main__':
         importlib.import_module(module)
 
     from BobApp import *
+
+    try:
+        app.close()
+    except:
+        pass
     app = BobApp()
     app.show()

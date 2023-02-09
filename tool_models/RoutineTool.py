@@ -4,8 +4,8 @@ from BobTool import *
 
 
 class RoutineTool(BobTool, ABC):
-    def __init__(self, name, pref_name, steps, button_text="Run",step_checked_default = True):
-        super().__init__(name, pref_name)
+    def __init__(self, name, pref_name, steps, tooltip="", button_text="Run",step_checked_default = True):
+        super().__init__(name, pref_name,tooltip)
         self.__description = "description"
         self.__button_text = button_text
 

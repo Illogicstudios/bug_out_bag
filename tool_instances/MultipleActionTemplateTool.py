@@ -25,7 +25,8 @@ class MultipleActionTemplateTool(MultipleActionTool):
                 "row":1
             }
         ]
-        super().__init__(name="Multiple Action Tool", pref_name="multiple_action_template_tool", actions=actions, stretch=True)
+        super().__init__(name="Multiple Action Tool", pref_name="multiple_action_template_tool",
+                         actions=actions, stretch=True)
 
     def __action_1(self):
         print("Action 1")

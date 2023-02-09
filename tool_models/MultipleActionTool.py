@@ -2,8 +2,8 @@ from BobTool import *
 
 
 class MultipleActionTool(BobTool, ABC):
-    def __init__(self, name, pref_name, actions,stretch):
-        super().__init__(name, pref_name)
+    def __init__(self, name, pref_name, actions,stretch,tooltip=""):
+        super().__init__(name, pref_name,tooltip)
         self._actions = actions
         self.__row = 0
         self.__stretch = stretch
@@ -11,7 +11,7 @@ class MultipleActionTool(BobTool, ABC):
             if "row" in action:
                 self.__row = max(self.__row,action["row"])
 
-    def _add_in_ui(self,lyt):
+    def _add_ui_before_buttons(self, lyt):
         pass
 
     def populate(self):
@@ -22,7 +22,7 @@ class MultipleActionTool(BobTool, ABC):
         content_layout.setContentsMargins(5, 5, 5, 5)
         # Add a button and assign the action button to its clicked event
 
-        self._add_in_ui(content_layout)
+        self._add_ui_before_buttons(content_layout)
 
         layouts = []
         for i in range(self.__row+1):

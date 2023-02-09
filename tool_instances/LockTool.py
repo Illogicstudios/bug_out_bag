@@ -1,7 +1,5 @@
 from tool_models.MultipleActionTool import *
 
-from pymel.core import *
-
 
 class LockTool(MultipleActionTool):
 
@@ -16,15 +14,18 @@ class LockTool(MultipleActionTool):
                 "action": self.__unlock_selection
             }
         }
-        super().__init__(name="Lock",pref_name="lock_tool", actions=actions, stretch=True)
+        tooltip = "Lock or Unlock the selection"
+        super().__init__(name="Lock", pref_name="lock_tool", actions=actions, stretch=True, tooltip=tooltip)
         self.__select_children = True
         self.__ignore_root = False
         self.__select_children_checkbox = None
         self.__ignore_root_checkbox = None
+        self.__pref_name_children = self._pref_name + "_children"
+        self.__pref_name_ignore_root = self._pref_name + "_ignore_root"
 
     def populate(self):
         layout = super(LockTool, self).populate()
-        self.__refresh_btn()
+        self.__refresh_ui()
         return layout
 
     def __get_transforms_selected(self):
@@ -44,7 +45,7 @@ class LockTool(MultipleActionTool):
             transform.translate.lock()
             transform.rotate.lock()
             transform.scale.lock()
-        self.__refresh_btn()
+        self.__refresh_ui()
 
     def __unlock_selection(self):
         selection = self.__get_transforms_selected()
@@ -61,9 +62,9 @@ class LockTool(MultipleActionTool):
             transform.scaleX.unlock()
             transform.scaleY.unlock()
             transform.scaleZ.unlock()
-        self.__refresh_btn()
+        self.__refresh_ui()
 
-    def __refresh_btn(self):
+    def __refresh_ui(self):
         selection = self.__get_transforms_selected()
         unlocked = False
         locked = False
@@ -84,37 +85,49 @@ class LockTool(MultipleActionTool):
                         r_locked or rx_locked or ry_locked or rz_locked or \
                         s_locked or sx_locked or sy_locked or sz_locked
             locked |= not t_locked or not tx_locked or not ty_locked or not tz_locked or \
-                        not r_locked or not rx_locked or not ry_locked or not rz_locked or \
-                        not s_locked or not sx_locked or not sy_locked or not sz_locked
+                      not r_locked or not rx_locked or not ry_locked or not rz_locked or \
+                      not s_locked or not sx_locked or not sy_locked or not sz_locked
             if locked and unlocked: break
-        self._actions["lock"]["button"].setEnabled(locked)
-        self._actions["unlock"]["button"].setEnabled(unlocked)
+        if "button" in self._actions["lock"]:
+            self._actions["lock"]["button"].setEnabled(locked)
+        if "button" in self._actions["unlock"]:
+            self._actions["unlock"]["button"].setEnabled(unlocked)
 
     def on_selection_changed(self):
-        self.__refresh_btn()
+        self.__refresh_ui()
 
     def on_dag_changed(self):
-        self.__refresh_btn()
+        self.__refresh_ui()
 
     def on_select_children_state_changed(self, state):
         self.__select_children = state == 2
-        self.__refresh_btn()
+        self.__refresh_ui()
 
     def on_ignore_root_state_changed(self, state):
         self.__ignore_root = state == 2
-        self.__refresh_btn()
+        self.__refresh_ui()
 
-    def _add_in_ui(self, lyt):
+    def _add_ui_before_buttons(self, lyt):
         cb_lyt = QHBoxLayout()
         cb_lyt.setAlignment(Qt.AlignCenter)
         lyt.addLayout(cb_lyt)
+
         self.__select_children_checkbox = QCheckBox("Select children")
         self.__select_children_checkbox.stateChanged.connect(self.on_select_children_state_changed)
         self.__select_children_checkbox.setChecked(self.__select_children)
         cb_lyt.addWidget(self.__select_children_checkbox)
+
         self.__ignore_root_checkbox = QCheckBox("Ignore root")
         self.__ignore_root_checkbox.stateChanged.connect(self.on_ignore_root_state_changed)
         self.__ignore_root_checkbox.setChecked(self.__ignore_root)
         cb_lyt.addWidget(self.__ignore_root_checkbox)
 
+    def save_prefs(self):
+        self._prefs[self.__pref_name_children] = self.__select_children
+        self._prefs[self.__pref_name_ignore_root] = self.__ignore_root
 
+    def retrieve_prefs(self):
+        if self.__pref_name_children in self._prefs:
+            self.__select_children = self._prefs[self.__pref_name_children]
+        if self.__pref_name_ignore_root in self._prefs:
+            self.__ignore_root = self._prefs[self.__pref_name_ignore_root]
