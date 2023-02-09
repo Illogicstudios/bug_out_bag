@@ -13,6 +13,7 @@ class RoutineTemplateTool(RoutineTool):
                 },
                 "Step 3": {
                     "action": self.__action_3,
+                    "checked" : False
                 }
             }
         super().__init__(name="Routine Template Tool", pref_name="routine_template_tool",

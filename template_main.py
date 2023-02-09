@@ -25,6 +25,7 @@ if __name__ == '__main__':
         "tool_instances.LockTool",
         "tool_instances.BrokenISGFixTool",
         "tool_instances.CleanFreezeTool",
+        "tool_instances.CleanerTool",
     ]
 
     from utils import *

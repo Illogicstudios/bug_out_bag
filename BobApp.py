@@ -26,6 +26,7 @@ from BobCategory import *
 from tool_instances.LockTool import *
 from tool_instances.BrokenISGFixTool import *
 from tool_instances.CleanFreezeTool import *
+from tool_instances.CleanerTool import *
 
 # ######################################################################################################################
 
@@ -51,11 +52,9 @@ class BobApp(QDialog):
         self.__bob_categories = [
             BobCategory("Transform", self.__prefs, [
                 LockTool(),
-                BrokenISGFixTool(),
                 CleanFreezeTool(),
-            ]),
-            BobCategory("Categ2", self.__prefs, []),
-            BobCategory("Categ2", self.__prefs, []),
+                CleanerTool(),
+            ])
         ]
         self.__selected_category = 0
 
