@@ -1,4 +1,3 @@
-
 from PySide2 import QtCore
 from PySide2 import QtWidgets
 from PySide2.QtWidgets import *
@@ -11,7 +10,7 @@ from BobCollapsibleWidget import *
 
 
 class BobCategory(BobElement):
-    def __init__(self, name, prefs,bob_tools):
+    def __init__(self, name, prefs, bob_tools):
         super().__init__(name)
         self.__prefs = prefs
         self._bob_tools = bob_tools
@@ -24,7 +23,7 @@ class BobCategory(BobElement):
         widget = QWidget()
         layout = QVBoxLayout()
         layout.setAlignment(Qt.AlignTop)
-        layout.setContentsMargins(3,6,3,8)
+        layout.setContentsMargins(3, 6, 3, 8)
         layout.setSpacing(5)
 
         for bob_tool in self._bob_tools:
@@ -52,6 +51,7 @@ class BobCategory(BobElement):
     def save_prefs(self):
         for bob_tool in self._bob_tools:
             bob_tool.save_prefs()
+
     def retrieve_prefs(self):
         for bob_tool in self._bob_tools:
             bob_tool.retrieve_prefs()

@@ -29,8 +29,10 @@ class BobTool(BobElement, ABC):
 
     def on_dag_changed(self):
         pass
+
     def save_prefs(self):
         pass
+
     def retrieve_prefs(self):
         pass
 
