@@ -5,27 +5,34 @@ class CleanerTool(RoutineTool):
 
     def __init__(self):
         steps = {
-            "Optimize scene size": {
-                "action": CleanerTool.__optimize_scene_size
+            "optimize_scene_size": {
+                "action": CleanerTool.__optimize_scene_size,
+                "text": "Optimize scene size"
             },
-            "Delete unknown nodes": {
-                "action": CleanerTool.__delete_unknown_node
+            "delete_unknown_nodes": {
+                "action": CleanerTool.__delete_unknown_node,
+                "text": "Delete unknown nodes"
             },
-            "Remove unknown plugins": {
-                "action": CleanerTool.__remove_unknown_plugins
+            "remove_unknown_plugins": {
+                "action": CleanerTool.__remove_unknown_plugins,
+                "text": "Remove unknown plugins"
             },
-            "Unlock all nodes": {
-                "action": CleanerTool.__unlock_all_nodes
+            "unlock_all_nodes": {
+                "action": CleanerTool.__unlock_all_nodes,
+                "text": "Unlock all nodes"
             },
-            "Remove CgAbBlastPanel Error": {
-                "action": CleanerTool.__remove_blast_panel_error
+            "remove_cgabblastpanel_error": {
+                "action": CleanerTool.__remove_blast_panel_error,
+                "text": "Remove CgAbBlastPanel Error"
             },
-            "Fix initialShadingGroup": {
-                "action": CleanerTool.__fix_isg
+            "fix_initialshadinggroup": {
+                "action": CleanerTool.__fix_isg,
+                "text": "Fix initialShadingGroup"
             }
         }
         super().__init__(name="Cleaner", pref_name="cleaner",
-                         steps=steps, button_text="Clean", step_checked_default=True)
+                         steps=steps, button_text="Clean",
+                         step_checked_default=True, checkbox_pref=True)
 
     @staticmethod
     def __optimize_scene_size():

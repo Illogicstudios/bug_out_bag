@@ -4,20 +4,21 @@ from BobTool import *
 
 
 class RoutineTool(BobTool, ABC):
-    def __init__(self, name, pref_name, steps, tooltip="", button_text="Run",step_checked_default = True):
+    def __init__(self, name, pref_name, steps, tooltip="", button_text="Run",
+                 step_checked_default = True, checkbox_pref= True):
         super().__init__(name, pref_name,tooltip)
+        self.__checkbox_pref = checkbox_pref
         self.__description = "description"
         self.__button_text = button_text
 
-        self.__steps = {}
-        for step_name, step in steps.items():
-            self.__steps[step_name] = {
-                "action": step["action"],
-                "checked": step["checked"] if "checked" in step else step_checked_default,
-                "checkbox" : None
-            }
+        self.__steps = steps
+        for step_id in steps.keys():
+            if "checked" not in self.__steps[step_id]:
+                self.__steps[step_id]["checked"] = step_checked_default
+            self.__steps[step_id]["checkbox"] = None
         self.__run_btn = None
         self.__refreshing = False
+        self.__global_cb = None
 
     def populate(self):
         layout = super().populate()
@@ -33,14 +34,14 @@ class RoutineTool(BobTool, ABC):
         self.__global_cb.stateChanged.connect(self.__on_global_state_changed)
         hlyt.addWidget(self.__global_cb)
 
-        for step_name, step in self.__steps.items():
+        for step_id, step in self.__steps.items():
             lyt_step = QHBoxLayout()
             step_cb = QCheckBox()
             step_cb.setChecked(step["checked"])
-            self.__steps[step_name]["checkbox"] = step_cb
-            step_cb.stateChanged.connect(partial(self.__on_step_state_modified,step_name))
+            self.__steps[step_id]["checkbox"] = step_cb
+            step_cb.stateChanged.connect(partial(self.__on_step_state_modified,step_id))
             lyt_step.addWidget(step_cb)
-            step_label = QLabel(step_name)
+            step_label = QLabel(step["text"])
             step_label.setWordWrap(True)
             lyt_step.addWidget(step_label,1)
             hlyt.addLayout(lyt_step)
@@ -79,3 +80,19 @@ class RoutineTool(BobTool, ABC):
             for step_name in self.__steps.keys():
                 self.__steps[step_name]["checkbox"].setChecked(state == 2)
             self.__refresh_ui()
+
+    def retrieve_prefs(self):
+        if self.__checkbox_pref:
+            pref = self._prefs[self._pref_name]
+            for step_id in self.__steps.keys():
+                if step_id in pref:
+                    self.__steps[step_id]["checked"] = pref[step_id]
+
+    def save_prefs(self):
+        if self.__checkbox_pref:
+            pref = self._prefs[self._pref_name] if self._pref_name in self._prefs else {}
+            for step_id in self.__steps.keys():
+                pref[step_id] = self.__steps[step_id]["checked"]
+
+            self._prefs[self._pref_name] = pref
+

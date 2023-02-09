@@ -11,7 +11,7 @@ class Header(QtWidgets.QWidget):
             content_widget (QtWidgets.QWidget): Widget containing child elements
         """
         super(Header, self).__init__()
-        self.pref_collapsed_name = pref_name+"_collapsed"
+        self.pref_name = pref_name
         self.prefs = prefs
         self.content = content_widget
         self.expand_ico = QtGui.QPixmap(":teDownArrow.png")
@@ -47,8 +47,9 @@ class Header(QtWidgets.QWidget):
         stacked.addWidget(background)
         background.setMinimumHeight(layout.sizeHint().height() * 1.4)
 
-        if self.pref_collapsed_name in self.prefs:
-            if self.prefs[self.pref_collapsed_name]:
+        if self.pref_name in self.prefs:
+            pref = self.prefs[self.pref_name]
+            if "collapsed" in pref and pref["collapsed"]:
                 self.collapse()
 
     def mousePressEvent(self, *args):
@@ -58,12 +59,16 @@ class Header(QtWidgets.QWidget):
     def expand(self):
         self.content.setVisible(True)
         self.icon.setPixmap(self.expand_ico)
-        self.prefs[self.pref_collapsed_name] = False
+        pref = self.prefs[self.pref_name] if self.pref_name in self.prefs else {}
+        pref["collapsed"] = False
+        self.prefs[self.pref_name] = pref
 
     def collapse(self):
         self.content.setVisible(False)
         self.icon.setPixmap(self.collapse_ico)
-        self.prefs[self.pref_collapsed_name] = True
+        pref = self.prefs[self.pref_name] if self.pref_name in self.prefs else {}
+        pref["collapsed"] = True
+        self.prefs[self.pref_name] = pref
 
 
 class BobCollapsibleWidget(QtWidgets.QWidget):

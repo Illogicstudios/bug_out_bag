@@ -20,8 +20,6 @@ class LockTool(MultipleActionTool):
         self.__ignore_root = False
         self.__select_children_checkbox = None
         self.__ignore_root_checkbox = None
-        self.__pref_name_children = self._pref_name + "_children"
-        self.__pref_name_ignore_root = self._pref_name + "_ignore_root"
 
     def populate(self):
         layout = super(LockTool, self).populate()
@@ -123,11 +121,15 @@ class LockTool(MultipleActionTool):
         cb_lyt.addWidget(self.__ignore_root_checkbox)
 
     def save_prefs(self):
-        self._prefs[self.__pref_name_children] = self.__select_children
-        self._prefs[self.__pref_name_ignore_root] = self.__ignore_root
+        pref = self._prefs[self._pref_name] if self._pref_name in self._prefs else {}
+        pref["children"] = self.__select_children
+        pref["ignore_root"] = self.__ignore_root
+        self._prefs[self._pref_name] = pref
 
     def retrieve_prefs(self):
-        if self.__pref_name_children in self._prefs:
-            self.__select_children = self._prefs[self.__pref_name_children]
-        if self.__pref_name_ignore_root in self._prefs:
-            self.__ignore_root = self._prefs[self.__pref_name_ignore_root]
+        if self._pref_name in self._prefs:
+            pref = self._prefs[self._pref_name]
+            if "children" in pref:
+                self.__select_children = self._prefs[self._pref_name]["children"]
+            if "ignore_root" in pref:
+                self.__ignore_root = self._prefs[self._pref_name]["ignore_root"]
