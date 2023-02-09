@@ -24,7 +24,6 @@ from BobCategory import *
 # from tool_instances.ActionTemplateTool import *
 # from tool_instances.MultipleActionTemplateTool import *
 from tool_instances.LockTool import *
-from tool_instances.BrokenISGFixTool import *
 from tool_instances.CleanFreezeTool import *
 from tool_instances.CleanerTool import *
 
