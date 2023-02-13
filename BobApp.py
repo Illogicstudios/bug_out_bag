@@ -26,6 +26,7 @@ from BobCategory import *
 from tool_instances.LockTool import *
 from tool_instances.CleanFreezeTool import *
 from tool_instances.CleanerTool import *
+from tool_instances.TextureCheckTool import *
 
 # ######################################################################################################################
 
@@ -53,6 +54,7 @@ class BobApp(QDialog):
                 LockTool(),
                 CleanFreezeTool(),
                 CleanerTool(),
+                TextureCheckTool(),
             ])
         ]
         self.__selected_category = 0

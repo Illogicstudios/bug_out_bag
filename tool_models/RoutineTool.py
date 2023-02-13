@@ -25,14 +25,20 @@ class RoutineTool(BobTool, ABC):
         # Get the collapsible widget (the only widget of the layout)
         collapsible = layout.itemAt(0).widget()
         content_layout = QHBoxLayout(collapsible.contentWidget)
-        content_layout.setContentsMargins(5, 5, 5, 5)
+        content_layout.setContentsMargins(5, 5, 5, 10)
         # Add a button and assign the action button to its clicked event
-        hlyt = QVBoxLayout()
-        content_layout.addLayout(hlyt)
+        vlyt = QVBoxLayout()
+        content_layout.addLayout(vlyt)
 
+        hlyt = QHBoxLayout()
+        vlyt.addLayout(hlyt)
         self.__global_cb = QCheckBox()
         self.__global_cb.stateChanged.connect(self.__on_global_state_changed)
         hlyt.addWidget(self.__global_cb)
+        self.__run_btn = QPushButton(self.__button_text)
+        self.__run_btn.setSizePolicy(QSizePolicy.Minimum,QSizePolicy.Minimum)
+        self.__run_btn.clicked.connect(self.__run)
+        hlyt.addWidget(self.__run_btn,0,Qt.AlignRight)
 
         for step_id, step in self.__steps.items():
             lyt_step = QHBoxLayout()
@@ -44,12 +50,8 @@ class RoutineTool(BobTool, ABC):
             step_label = QLabel(step["text"])
             step_label.setWordWrap(True)
             lyt_step.addWidget(step_label,1)
-            hlyt.addLayout(lyt_step)
+            vlyt.addLayout(lyt_step)
 
-        self.__run_btn = QPushButton(self.__button_text)
-        self.__run_btn.setSizePolicy(QSizePolicy.Minimum,QSizePolicy.Minimum)
-        self.__run_btn.clicked.connect(self.__run)
-        hlyt.addWidget(self.__run_btn,0,Qt.AlignRight)
         self.__refresh_ui()
         return layout
 
@@ -83,10 +85,11 @@ class RoutineTool(BobTool, ABC):
 
     def retrieve_prefs(self):
         if self.__checkbox_pref:
-            pref = self._prefs[self._pref_name]
-            for step_id in self.__steps.keys():
-                if step_id in pref:
-                    self.__steps[step_id]["checked"] = pref[step_id]
+            if self._pref_name in self._prefs:
+                pref = self._prefs[self._pref_name]
+                for step_id in self.__steps.keys():
+                    if step_id in pref:
+                        self.__steps[step_id]["checked"] = pref[step_id]
 
     def save_prefs(self):
         if self.__checkbox_pref:
