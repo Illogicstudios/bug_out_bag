@@ -37,8 +37,8 @@ if __name__ == '__main__':
     from BobApp import *
 
     try:
-        app.close()
+        bob.close()
     except:
         pass
-    app = BobApp()
-    app.show()
+    bob = BobApp()
+    bob.show()
