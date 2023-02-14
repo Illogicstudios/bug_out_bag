@@ -50,7 +50,7 @@ class BobApp(QDialog):
 
         # Model attributes
         self.__bob_categories = [
-            BobCategory("Transform", self.__prefs, [
+            BobCategory("Utils", self.__prefs, [
                 LockTool(),
                 CleanFreezeTool(),
                 CleanerTool(),

@@ -35,9 +35,4 @@ class ActionTool(BobTool, ABC):
         self._action_btn = QPushButton(self.__button_text)
         self._action_btn.clicked.connect(self.__action_with_chunks)
         hlyt.addWidget(self._action_btn)
-
-        self._do_after_populate()
         return layout
-
-    def _do_after_populate(self):
-        pass
