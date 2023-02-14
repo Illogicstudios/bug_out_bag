@@ -26,6 +26,7 @@ class CleanFreezeTool(ActionTool):
         self.__unlock_selection()
         self.__freeze_transform()
         self.__center_pivot()
+        self.__delete_history()
         self.__lock_selection()
 
     def __freeze_transform(self):
@@ -34,8 +35,14 @@ class CleanFreezeTool(ActionTool):
 
     def __center_pivot(self):
         for item in self.__selection:
-            xform(item["transform"], zeroTransformPivots=True, worldSpaceDistance =True)
+            relatives = listRelatives(item["transform"], allDescendents=True, type="transform")
+            for relative in relatives:
+                xform(relative, zeroTransformPivots=True)
+            xform(item["transform"], zeroTransformPivots=True)
 
+    def __delete_history(self):
+        for item in self.__selection:
+            delete(item["transform"].history(pruneDagObjects=True))
 
     def __retrieve_selection(self):
         selection = CleanFreezeTool.__get_transforms_selected()
