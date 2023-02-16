@@ -4,6 +4,9 @@ Template is a tool to ...
 
 ## How to install
 
+You will need some files that several Illogic tools need. You can get them via this link :
+https://github.com/Illogicstudios/common
+
 You must specify the correct path of the installation folder in the template_main.py file :
 ```python
 if __name__ == '__main__':
