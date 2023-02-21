@@ -26,6 +26,8 @@ if __name__ == '__main__':
         "tool_instances.CleanFreezeTool",
         "tool_instances.CleanerTool",
         "tool_instances.TextureCheckTool",
+        "tool_instances.ShaderTransfer",
+        "tool_instances.RestPosToVertexColorTool",
     ]
 
     from utils import *
