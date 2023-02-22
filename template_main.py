@@ -28,6 +28,8 @@ if __name__ == '__main__':
         "tool_instances.TextureCheckTool",
         "tool_instances.ShaderTransfer",
         "tool_instances.RestPosToVertexColorTool",
+        "tool_instances.DeleteOrigTool",
+        "tool_instances.UVCopierTool",
     ]
 
     from utils import *
