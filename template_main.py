@@ -30,6 +30,7 @@ if __name__ == '__main__':
         "tool_instances.RestPosToVertexColorTool",
         "tool_instances.DeleteOrigTool",
         "tool_instances.UVCopierTool",
+        "tool_instances.ShapeRenamerTool",
     ]
 
     from utils import *
