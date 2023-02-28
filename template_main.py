@@ -31,6 +31,7 @@ if __name__ == '__main__':
         "tool_instances.DeleteOrigTool",
         "tool_instances.UVCopierTool",
         "tool_instances.ShapeRenamerTool",
+        "tool_instances.SplineStepTool",
     ]
 
     from utils import *
