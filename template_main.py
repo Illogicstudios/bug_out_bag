@@ -33,6 +33,7 @@ if __name__ == '__main__':
         "tool_instances.ShapeRenamerTool",
         "tool_instances.SplineStepTool",
         "tool_instances.OverrideKillerTool",
+        "tool_instances.ShadingGroupRenamer",
     ]
 
     from utils import *
