@@ -123,7 +123,6 @@ class HierarchyCheckTool(ActionTool):
                     child_1_type = child_1.nodeType()
                     child_2_type = child_2.nodeType()
                     processed = False
-                    print_var(child_1,child_2, child_1_type , child_2_type)
                     if child_1_type != child_2_type:
                         # Type Different
                         obj_diff_1.append((child_1, "type"))
@@ -168,13 +167,20 @@ class HierarchyCheckTool(ActionTool):
             sel_2 = self.__selection[1]
             objects_diff_data_1, objects_diff_data_2 = check_if_same_objects(sel_1, sel_2)
 
-            try:
-                self.__hierarchy_visualizer.hide()
-            except Exception:
-                self.__hierarchy_visualizer = HierarchyCheckVisualizeer(self, sel_1, sel_2, objects_diff_data_1,
-                                                                        objects_diff_data_2)
-            self.__hierarchy_visualizer.show()
-            self.__hierarchy_visualizer.refresh_ui()
+            if len(objects_diff_data_1) == 0 and len(objects_diff_data_2) == 0:
+                msg = QMessageBox()
+                msg.setWindowTitle("Same hierarchy")
+                msg.setIcon(QMessageBox.Information)
+                msg.setText("Objects match each other")
+                msg.exec_()
+            else:
+                try:
+                    self.__hierarchy_visualizer.hide()
+                except Exception:
+                    self.__hierarchy_visualizer = HierarchyCheckVisualizeer(self, sel_1, sel_2, objects_diff_data_1,
+                                                                            objects_diff_data_2)
+                self.__hierarchy_visualizer.show()
+                self.__hierarchy_visualizer.refresh_ui()
 
     # setter of the state opened
     def set_opened(self, opened):
