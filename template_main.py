@@ -35,6 +35,7 @@ if __name__ == '__main__':
         "tool_instances.OverrideKillerTool",
         "tool_instances.ShadingGroupRenamer",
         "tool_instances.HierarchyCheckTool",
+        "tool_instances.CharacterTimeSetTool",
     ]
 
     from utils import *
