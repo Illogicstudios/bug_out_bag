@@ -1,5 +1,5 @@
 from ..tool_models.MultipleActionTool import *
-
+from common import utils
 
 class TraceSetTool(MultipleActionTool):
     def __init__(self):
@@ -92,15 +92,20 @@ class TraceSetTool(MultipleActionTool):
 
                 # Step 4: For the shaders of objects in the shading group set, create or update a trace set node between the shader and the shading group
                 for obj in shading_group_set:
-                    shading_grps = pm.listConnections(TraceSetTool.__get_all_shapes(obj), type='shadingEngine')
+                    shapes = TraceSetTool.__get_all_shapes(obj)
+                    if len(shapes)==0:
+                        continue
+                    shading_grps = pm.listConnections(shapes, type='shadingEngine')
                     if shading_grps:
                         for shading_grp in shading_grps:
                             try:
+                                print("b")
                                 trace_set_nodes = pm.listConnections(shading_grp.surfaceShader, type='aiTraceSet')
                                 if trace_set_nodes:
                                     trace_set_node = trace_set_nodes[0]
                                 else:
                                     trace_set_node = pm.shadingNode('aiTraceSet', asUtility=True, name=f'{trace_set_name}_aiTraceSet')
+                                    print("c")
                                     shader = pm.listConnections(shading_grp.surfaceShader, source=True)
                                     if shader:
                                         shader[0].outColor >> trace_set_node.passthrough
@@ -120,9 +125,12 @@ class TraceSetTool(MultipleActionTool):
     @staticmethod
     def __get_all_shapes(node):
         shapes = []
-        for child in node.listRelatives(ad=True):
-            if child.type() == 'mesh':
-                shapes.append(child)
+        if node.type() == 'mesh':
+            shapes.append(node)
+        else:
+            for child in node.listRelatives(ad=True):
+                if child.type() == 'mesh':
+                    shapes.append(child)
         return shapes
 
     def populate(self):

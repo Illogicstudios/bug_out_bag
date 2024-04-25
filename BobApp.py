@@ -35,7 +35,16 @@ from .tool_instances.ShadingGroupRenamerTool import *
 from .tool_instances.HierarchyCheckTool import *
 from .tool_instances.CharacterTimeSetTool import *
 from .tool_instances.TraceSetTool import *
-
+from .tool_instances.SelectBigObjects import *
+from .tool_instances.SelectInvisibleObjects import *
+from .tool_instances.PrintAbcLayer import *
+from .tool_instances.ViewportShader import *
+from .tool_instances.Orig import *
+from .tool_instances.Gate import *
+from .tool_instances.IsolateTool import *
+from .tool_instances.FaceFromShader import *
+from .tool_instances.GlassShadow import *
+from .tool_instances.ShaderDuplicate import *
 # ######################################################################################################################
 
 _FILE_NAME_PREFS = "bug_out_bag"
@@ -60,12 +69,20 @@ class BobApp(QDialog):
         self.__bob_categories = [
             BobCategory("Utils", self.__prefs, [
                 LockTool(),
-                ShaderTransferTool(),
-                RestPosToVertexColorTool(),
-                UVCopierTool(),
+
+
+
                 SplineStepTool(),
                 CharacterTimeSetTool(),
-                TraceSetTool()
+                TraceSetTool(),
+                SelectBigObjects(),
+                SelectInvisibleObjects(),
+                PrintAbcLayer(),
+
+                Orig(),
+                Gate(),
+                IsolateTool(),
+
             ]),
             BobCategory("Clean", self.__prefs, [
                 CleanFreezeTool(),
@@ -73,9 +90,21 @@ class BobApp(QDialog):
                 TextureCheckTool(),
                 DeleteOrigTool(),
                 ShapeRenamerTool(),
-                ShadingGroupRenamerTool(),
+
                 OverrideKillerTool(),
                 HierarchyCheckTool(),
+            ]),
+
+            BobCategory("Shading", self.__prefs, [
+                UVCopierTool(),
+                GlassShadow(),
+                ShaderTransferTool(),
+                RestPosToVertexColorTool(),
+                ViewportShader(),
+                FaceFromShader(),
+                ShadingGroupRenamerTool(),
+                ShaderDuplicate(),
+
             ]),
         ]
         self.__selected_category = 0
